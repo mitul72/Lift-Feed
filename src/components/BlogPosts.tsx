@@ -73,7 +73,7 @@ function BlogPost({ userName }: any) {
         </div>
       </div>
       <div className="space-y-2 text-base leading-8">
-        <p>Just finished a 5k run. I'm exhausted but feeling great!</p>
+        <p>Just finished a 5k run. I&#39;m exhausted but feeling great!</p>
         <img
           alt="Image"
           className="aspect-video overflow-hidden rounded-xl object-cover object-center"
