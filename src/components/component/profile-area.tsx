@@ -46,8 +46,8 @@ export function ProfileArea() {
           <div>
             <h2 className="text-lg font-semibold">About</h2>
             <p className="text-gray-500 dark:text-gray-400 mt-2">
-              I'm a fitness enthusiast who loves to share my journey and
-              experiences in the gym. I'm passionate about helping others
+              I&#39;m a fitness enthusiast who loves to share my journey and
+              experiences in the gym. I&#39;m passionate about helping others
               achieve their fitness goals through my tips and advice.
             </p>
           </div>

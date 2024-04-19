@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function page() {
+export default function Profile() {
   // const [loading, setLoading] = useState(true);
   const { user } = useUserAuth();
   const router = useRouter();
