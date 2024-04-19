@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function page() {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const { user } = useUserAuth();
   const router = useRouter();
   // useEffect(() => {

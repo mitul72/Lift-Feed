@@ -37,7 +37,10 @@ export function BlogPosts() {
             Create Thread
           </Button>
         </div>
-        <div className="container grid items-start gap-6 px-4 py-6 md:py-12 lg:px-6 lg:gap-10 xl:grid-cols-4 xl:gap-16">
+        <div className="container grid items-start gap-6 px-4 py-6 md:py-12 lg:px-6 lg:gap-10 xl:grid-cols-2 xl:gap-16">
+          <BlogPost />
+          <BlogPost />
+          <BlogPost />
           <BlogPost />
         </div>
       </div>
@@ -47,7 +50,7 @@ export function BlogPosts() {
 
 function BlogPost({ userName }: any) {
   return (
-    <div className="space-y-4 xl:col-start-2 xl:col-span-2 xl:order-last">
+    <div className="space-y-4 xl:order-last">
       <div className="flex items-center space-x-4">
         <div className="flex items-center space-x-2">
           <Avatar className="w-12 h-12">
