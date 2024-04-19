@@ -3,17 +3,25 @@ import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Link from "next/link";
+import { useUserAuth } from "@/context/auth-context";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function SignUpForm() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user, handleSignUp } = useUserAuth();
 
-  const handleSignUp = () => {
-    console.log("Sign Up");
-  };
+  useEffect(() => {
+    if (user) {
+      toast.success("Account created successfully");
+      router.push("/");
+    }
+  }, [user]);
 
   return (
     <Card className="py-4 px-14 w-1/2  text-center max-md:w-5/6 max-md:px-5">
@@ -55,7 +63,10 @@ export default function SignUpForm() {
           <Chip>Yoga</Chip>
           <Chip>Running</Chip>
         </div> */}
-        <Button onClick={() => handleSignUp} color="primary">
+        <Button
+          onClick={() => handleSignUp(username, email, password)}
+          color="primary"
+        >
           Sign Up
         </Button>
         <p className="text-small text-neutral-700">

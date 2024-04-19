@@ -12,10 +12,20 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
+import { useUserAuth } from "@/context/auth-context";
+import toast from "react-hot-toast";
 
 export default function LiftFeedNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const { user, firebaseSignOut } = useUserAuth();
+  const handleSignOut = async () => {
+    try {
+      await firebaseSignOut();
+      toast.success("Signed out successfully");
+    } catch (error) {
+      console.error("Error signing out", error);
+    }
+  };
   const menuItems = {
     Workout: "workout",
     Diet: "diet",
@@ -48,11 +58,19 @@ export default function LiftFeedNavbar() {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem>
-          <Button as={Link} color="primary" href="signup" variant="solid">
-            Sign Up
-          </Button>
-        </NavbarItem>
+        {!user ? (
+          <NavbarItem>
+            <Button as={Link} color="primary" href="signup" variant="solid">
+              Sign Up
+            </Button>
+          </NavbarItem>
+        ) : (
+          <NavbarItem>
+            <Button onClick={handleSignOut} href="/" color="danger">
+              Logout
+            </Button>
+          </NavbarItem>
+        )}
       </NavbarContent>
       <NavbarMenu>
         {Object.entries(menuItems).map(([key, value], index) => (

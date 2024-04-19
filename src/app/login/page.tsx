@@ -5,14 +5,30 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useState } from "react";
+import { useUserAuth } from "@/context/auth-context";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 export default function Login() {
-  const handleLogin = () => {
-    console.log("Login");
-  };
+  const { handleSignIn } = useUserAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      handleSignIn(email, password);
+      router.push("/profile");
+      toast.success("Signed in successfully");
+    } catch (error) {
+      console.error("Error signing in", error);
+    }
+  };
+
   return (
-    <div className="mx-auto py-12 px-4 space-y-6 max-w-sm">
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto py-12 px-4 space-y-6 max-w-sm"
+    >
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold">Liftfeed</h1>
       </div>
@@ -53,6 +69,6 @@ export default function Login() {
           </Link>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
