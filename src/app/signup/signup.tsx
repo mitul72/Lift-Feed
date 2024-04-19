@@ -16,8 +16,8 @@ export default function SignUpForm() {
   };
 
   return (
-    <Card className="py-4 px-20 w-1/2  text-center max-md:w-2/3">
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
+    <Card className="py-4 px-14 w-1/2  text-center max-md:w-2/3 max-md:px-5">
+      <CardHeader className="pb-0 pt-2 px-4 flex-col items-center max-md:px-0">
         <h4 className="uppercase font-bold text-medium mt-2">
           Welcome to LiftFeed
         </h4>
