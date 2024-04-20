@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where, doc, getDoc, updateDoc, deleteDoc, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, getDoc, updateDoc, deleteDoc, orderBy, startAfter, limit, QueryDocumentSnapshot, DocumentData, getCountFromServer } from "firebase/firestore";
 import { db } from "../utils/firebase";
 
 // Function to get all threads
@@ -18,6 +18,40 @@ export const getAllThreads = async () => {
     }
   };
   
+export const getThreadsByPage = async (pageNumber: number, pageSize: number = 12) => {
+    try {
+      const threadsRef = collection(db, "threads");
+      let q = query(threadsRef, orderBy("createdAt", "desc"), limit(pageSize));
+  
+      // Calculate the number of threads to skip based on the page number
+      const threadsToSkip = (pageNumber - 1) * pageSize;
+  
+      // Fetch the first thread of the previous page to use as the starting point
+      if (threadsToSkip > 0) {
+        const firstThreadOfPreviousPageQuery = query(
+          threadsRef,
+          orderBy("createdAt", "desc"),
+          limit(threadsToSkip)
+        );
+        const firstThreadOfPreviousPageSnapshot = await getDocs(firstThreadOfPreviousPageQuery);
+        const lastThreadOfPreviousPage = firstThreadOfPreviousPageSnapshot.docs[firstThreadOfPreviousPageSnapshot.docs.length - 1];
+        q = query(q, startAfter(lastThreadOfPreviousPage));
+      }
+  
+      const querySnapshot = await getDocs(q);
+      const threads = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  
+      return threads;
+    } catch (error) {
+      console.error("Error getting threads:", error);
+      throw error;
+    }
+  };
+    
+
 // Function to get a thread by ID
 export const getThreadById = async (threadId: string) => {
   try {
@@ -36,6 +70,18 @@ export const getThreadById = async (threadId: string) => {
     throw error;
   }
 };
+
+export const getTotalThreadCount = async () => {
+    try {
+      const threadsRef = collection(db, "threads");
+      const snapshot = await getCountFromServer(threadsRef);
+      return snapshot.data().count;
+    } catch (error) {
+      console.error("Error getting total thread count:", error);
+      throw error;
+    }
+  };
+  
 
 // Function to delete a thread by ID
 export const deleteThreadById = async (threadId: string) => {

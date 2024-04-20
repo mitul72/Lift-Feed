@@ -4,29 +4,41 @@ import { AvatarImage, Avatar } from "@/components/ui/avatar";
 import { Button } from "@nextui-org/button";
 import { useDisclosure } from "@nextui-org/modal";
 import CreateThreadModal from "./CreateThreadModal";
-import { getAllThreads } from "@/utils/firestore";
+import {
+  getAllThreads,
+  getThreadsByPage,
+  getTotalThreadCount,
+} from "@/utils/firestore";
 import { useEffect, useState } from "react";
-import { Spinner } from "@nextui-org/react";
+import { Pagination, Spinner } from "@nextui-org/react";
 import { useThread } from "@/context/threads";
 import { Image } from "@nextui-org/image";
 
 export function BlogPosts() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { threads, setThreads } = useThread();
+  const [page, setPage] = useState(1);
+  const [totalThreads, setTotalThreads] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchThreads = async () => {
       try {
-        const allThreads = await getAllThreads();
-        console.log(allThreads);
-        setThreads(allThreads);
+        //const allThreads = await getAllThreads();
+        const threadsByPage = await getThreadsByPage(page);
+        const totalThreads = await getTotalThreadCount();
+        const totalPages = Math.ceil(totalThreads / 12);
+        console.log(threadsByPage.length);
+        setTotalPages(totalPages);
+        setTotalThreads(totalThreads);
+        setThreads(threadsByPage);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchThreads();
-  }, []);
+  }, [page]);
   if (!threads)
     return (
       <div className="flex justify-center items-center min-h-[80dvh]">
@@ -34,7 +46,7 @@ export function BlogPosts() {
       </div>
     );
   return (
-    <div className="flex flex-col min-h-[100dvh] mx-10">
+    <div className="flex flex-col min-h-[100dvh] mx-10 gap-5">
       <div className="flex-1 bg-gray-100/90 dark:bg-gray-800/90 rounded-md ">
         <div className="flex items-center mt-10  justify-around">
           <h1 className="text-xl font-bold uppercase ">Threads</h1>
@@ -49,6 +61,14 @@ export function BlogPosts() {
           ))}
         </div>
       </div>
+      <Pagination
+        className="ml-2"
+        color="primary"
+        size="lg"
+        total={totalPages}
+        page={page}
+        onChange={setPage}
+      />
     </div>
   );
 }
