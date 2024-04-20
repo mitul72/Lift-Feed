@@ -4,11 +4,7 @@ import { AvatarImage, Avatar } from "@/components/ui/avatar";
 import { Button } from "@nextui-org/button";
 import { useDisclosure } from "@nextui-org/modal";
 import CreateThreadModal from "./CreateThreadModal";
-import {
-  getAllThreads,
-  getThreadsByPage,
-  getTotalThreadCount,
-} from "@/utils/firestore";
+import { getThreadsByPage, getTotalThreadCount } from "@/utils/firestore";
 import { useEffect, useState } from "react";
 import { Pagination, Spinner } from "@nextui-org/react";
 import { useThread } from "@/context/threads";
@@ -53,7 +49,11 @@ export function BlogPosts() {
           <Button onPress={onOpen} className="" color="primary">
             Create Thread
           </Button>
-          <CreateThreadModal isOpen={isOpen} onOpenChange={onOpenChange} />
+          <CreateThreadModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            page={page}
+          />
         </div>
         <div className="container grid items-start gap-6 px-4 py-6 md:py-12 lg:px-6 lg:gap-10 xl:grid-cols-2 xl:gap-16">
           {threads.map((thread: any) => (

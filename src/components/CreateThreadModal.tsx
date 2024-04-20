@@ -16,14 +16,16 @@ import { collection, addDoc } from "firebase/firestore";
 import { useUserAuth } from "@/context/auth-context";
 import toast from "react-hot-toast";
 import { useThread } from "@/context/threads";
-import { getAllThreads } from "@/utils/firestore";
+import { getThreadsByPage } from "@/utils/firestore";
 
 export default function CreateThreadModal({
   isOpen,
   onOpenChange,
+  page,
 }: {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  page: number;
 }) {
   const { user } = useUserAuth();
   const { setThreads } = useThread();
@@ -90,7 +92,7 @@ export default function CreateThreadModal({
       setUploadedFile(null);
       onOpenChange(false);
       // Fetch the updated threads and update the threads state
-      const updatedThreads = await getAllThreads();
+      const updatedThreads = await getThreadsByPage(page);
       setThreads(updatedThreads);
     } catch (error) {
       console.error("Error creating thread:", error);
