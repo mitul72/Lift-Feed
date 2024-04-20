@@ -51,7 +51,7 @@ export default function StyledDropzone(props: any) {
     <div>
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>Drag &#39;n&#39; drop some files here, or click to select files</p>
       </div>
     </div>
   );
