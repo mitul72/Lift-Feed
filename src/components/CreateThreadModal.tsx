@@ -7,7 +7,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "@nextui-org/modal";
-import { Input } from "@nextui-org/react";
+import { Input, Textarea } from "@nextui-org/react";
 import StyledDropzone from "./shared/StyledDropZone";
 import { useState } from "react";
 import { db, storage } from "../utils/firebase";
@@ -106,7 +106,7 @@ export default function CreateThreadModal({
               Create Thread
             </ModalHeader>
             <ModalBody>
-              <Input
+              <Textarea
                 label="Content"
                 placeholder="Enter content"
                 className="mb-2"
