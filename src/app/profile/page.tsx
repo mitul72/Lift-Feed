@@ -9,6 +9,9 @@ export default function Profile() {
   // const [loading, setLoading] = useState(true);
   const { user } = useUserAuth();
   const router = useRouter();
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   // useEffect(() => {
   //   if (!loading && !user) {
   //     toast.error("You need to be logged in to view this page");

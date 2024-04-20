@@ -50,6 +50,10 @@ export default function CreateThreadModal({
 
   const handleCreateThread = async () => {
     try {
+      if (content.length == 0 && !uploadedFile) {
+        toast.error("Content or image is required to create a thread");
+        return;
+      }
       if (!user) {
         toast.error("You need to be logged in to create a thread");
       }
@@ -94,8 +98,9 @@ export default function CreateThreadModal({
       // Fetch the updated threads and update the threads state
       const updatedThreads = await getThreadsByPage(page);
       setThreads(updatedThreads);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating thread:", error);
+      toast.error(error.message || "Error creating thread");
     }
   };
 
