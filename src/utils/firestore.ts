@@ -1,22 +1,23 @@
-import { collection, getDocs, query, where, doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, getDoc, updateDoc, deleteDoc, orderBy } from "firebase/firestore";
 import { db } from "../utils/firebase";
 
 // Function to get all threads
 export const getAllThreads = async () => {
-  try {
-    const threadsRef = collection(db, "threads");
-    const querySnapshot = await getDocs(threadsRef);
-    const threads = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    return threads;
-  } catch (error) {
-    console.error("Error getting threads:", error);
-    throw error;
-  }
-};
-
+    try {
+      const threadsRef = collection(db, "threads");
+      const q = query(threadsRef, orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const threads = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return threads;
+    } catch (error) {
+      console.error("Error getting threads:", error);
+      throw error;
+    }
+  };
+  
 // Function to get a thread by ID
 export const getThreadById = async (threadId: string) => {
   try {
