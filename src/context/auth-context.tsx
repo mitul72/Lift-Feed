@@ -13,6 +13,7 @@ import {
 import { auth } from "../utils/firebase";
 import { z } from "zod";
 import { User } from "firebase/auth";
+import toast from "react-hot-toast";
 
 interface contextType {
   user: User | null;
@@ -76,6 +77,7 @@ export const AuthContextProvider = ({ children }: any) => {
         });
       } else {
         console.error(error.message);
+        toast.error(error.message);
       }
     }
   };

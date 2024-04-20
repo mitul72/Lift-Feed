@@ -15,6 +15,9 @@ export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, handleSignUp } = useUserAuth();
+  const onSignUp = () => {
+    handleSignUp(username, email, password);
+  };
 
   useEffect(() => {
     if (user) {

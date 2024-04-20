@@ -5,6 +5,7 @@ import NextUIProvider from "../context/NextUIProvider";
 import LiftFeedNavbar from "@/components/shared/Navbar";
 import { AuthContextProvider } from "@/context/auth-context";
 import { Toaster } from "react-hot-toast";
+import { ThreadProvider } from "@/context/threads";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,10 +24,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster position="bottom-right" reverseOrder={false} />
         <AuthContextProvider>
-          <NextUIProvider>
-            <LiftFeedNavbar />
-            {children}
-          </NextUIProvider>
+          <ThreadProvider>
+            <NextUIProvider>
+              <LiftFeedNavbar />
+              {children}
+            </NextUIProvider>
+          </ThreadProvider>
         </AuthContextProvider>
       </body>
     </html>
