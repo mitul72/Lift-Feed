@@ -14,6 +14,7 @@ import { auth } from "../utils/firebase";
 import { z } from "zod";
 import { User } from "firebase/auth";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface contextType {
   user: User | null;
@@ -50,7 +51,7 @@ const signInSchema = z.object({
 
 export const AuthContextProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | null>(null);
-
+  const router = useRouter();
   const handleSignUp = async (
     name: string,
     email: string,
@@ -69,6 +70,8 @@ export const AuthContextProvider = ({ children }: any) => {
       await updateProfile(userCredential.user, { displayName: name });
 
       console.log("Sign up successful");
+      toast.success("Account created successfully");
+      router.push("/profile");
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         // Handle validation errors
